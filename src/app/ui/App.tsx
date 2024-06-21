@@ -1,3 +1,9 @@
+import { QuizPage } from "@pages/quiz-page/index";
+
 export default function App() {
-  return <div></div>;
+  return (
+    <div>
+      <QuizPage />
+    </div>
+  );
 }
