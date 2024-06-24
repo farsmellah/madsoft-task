@@ -1,84 +1,61 @@
 {
   "questions": [
     {
+      "id": "1",
       "text": "Что должен знать Frontend-разработчик? Назовите три ключевых технологии",
       "type": "single_choice",
       "answers": [
         {
-          "text": "HTML, CSS и JavaScript",
-          "selected": false,
-          "selectedOrder": 2
+          "id": "1",
+          "text": "HTML, CSS и JavaScript"
         },
         {
-          "text": "Kotlin, PHP и JavaScript",
-          "selected": false,
-          "selectedOrder": 3
-        },
-        { "text": "PHP, HTML и CSS", "selected": false, "selectedOrder": 1 }
-      ],
-      "randomiseAnswers": true
-    },
-    {
-      "text": "Что должен знать Frontend-разработчик? Назовите три ключевых технологии",
-      "type": "single_choice",
-      "answers": [
-        {
-          "text": "HTML, CSS и JavaScript",
-          "selected": false,
-          "selectedOrder": 2
+          "id": "2",
+          "text": "Kotlin, PHP и JavaScript"
         },
         {
-          "text": "Kotlin, PHP и JavaScript",
-          "selected": false,
-          "selectedOrder": 3
-        },
-        { "text": "PHP, HTML и CSS", "selected": false, "selectedOrder": 1 }
-      ],
-      "randomiseAnswers": true
-    },
-    {
-      "text": "Что должен знать Frontend-разработчик? Назовите три ключевых технологии",
-      "type": "single_choice",
-      "answers": [
-        {
-          "text": "HTML, CSS и JavaScript",
-          "selected": false,
-          "selectedOrder": 2
-        },
-        {
-          "text": "Kotlin, PHP и JavaScript",
-          "selected": false,
-          "selectedOrder": 3
-        },
-        {
-          "text": "PHP, HTML и CSS",
-          "selected": false,
-          "selectedOrder": 1
+          "id": "3",
+          "text": "PHP, HTML и CSS"
         }
-      ],
-      "randomiseAnswers": true
+      ]
     },
     {
+      "id": "2",
+      "text": "Зачем нужен Typescript",
+      "type": "single_choice",
+      "answers": [
+        {
+          "id": "1",
+          "text": "Для десктопных приложений"
+        },
+        {
+          "id": "2",
+          "text": "Для мобильных приложений"
+        },
+        {
+          "id": "3",
+          "text": "Метаязык, который добавляет статическую типизацию"
+        }
+      ]
+    },
+    {
+      "id": "3",
       "text": "Что должен знать Frontend-разработчик? Назовите три ключевых технологии",
       "type": "single_choice",
       "answers": [
         {
-          "text": "HTML, CSS и JavaScript",
-          "selected": false,
-          "selectedOrder": 2
+          "id": "1",
+          "text": "HTML, CSS и JavaScript"
         },
         {
-          "text": "Kotlin, PHP и JavaScript",
-          "selected": false,
-          "selectedOrder": 3
+          "id": "2",
+          "text": "Kotlin, PHP и JavaScript"
         },
         {
-          "text": "PHP, HTML и CSS",
-          "selected": false,
-          "selectedOrder": 1
+          "id": "3",
+          "text": "PHP, HTML и CSS"
         }
-      ],
-      "randomiseAnswers": true
+      ]
     }
   ]
 }
