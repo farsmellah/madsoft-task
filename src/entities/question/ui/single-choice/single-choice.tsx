@@ -3,15 +3,19 @@ import {
   SingleChoiceQuestionDTO,
 } from "@entities/question/model/question.model";
 import SingleChoiceAnswer from "./single-choice-answer";
-import { useState } from "react";
 
 interface Props {
   question: SingleChoiceQuestionDTO;
   onButtonClick: (answerId: string) => void;
+  selectedAnswerID: string | null;
+  setSelectedAnswerID: (answerId: string) => void;
 }
-export default function SingleChoice({ question, onButtonClick }: Props) {
-  const [selectedAnswerID, setSelectedAnswerID] = useState<string | null>(null);
-
+export default function SingleChoice({
+  question,
+  onButtonClick,
+  selectedAnswerID,
+  setSelectedAnswerID,
+}: Props) {
   function onAnswerClick(answerId: string) {
     setSelectedAnswerID(answerId);
   }
@@ -23,6 +27,7 @@ export default function SingleChoice({ question, onButtonClick }: Props) {
         answer={answer}
         name={"singleChoice"}
         onAnswerClick={onAnswerClick}
+        selectedAnswerID={selectedAnswerID}
       />
     ));
   }
