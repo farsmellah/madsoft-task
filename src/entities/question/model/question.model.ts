@@ -1,6 +1,6 @@
 export interface QuestionBaseDTO {
   id: string;
-  type: "single_choice" | "multiple_choice" | "short_text";
+  type: "single_choice" | "multiple_choice" | "short_text" | "long_text";
   text: string;
 }
 
@@ -34,8 +34,15 @@ export interface ShortTextQuestionDTO extends QuestionBaseDTO {
 }
 /**/
 
+/*Short Text Type*/
+export interface LongTextQuestionDTO extends QuestionBaseDTO {
+  type: "long_text";
+}
+/**/
+
 /*Question DTO*/
 export type QuestionDTO =
   | SingleChoiceQuestionDTO
   | MultipleChoiceQuestionDTO
-  | ShortTextQuestionDTO;
+  | ShortTextQuestionDTO
+  | LongTextQuestionDTO;

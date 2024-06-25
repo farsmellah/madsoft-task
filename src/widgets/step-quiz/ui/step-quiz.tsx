@@ -6,6 +6,7 @@ import { QuestionDTO } from "@entities/question/model/question.model";
 import MultipleChoice from "@entities/question/ui/multiple-choice/multiple-choice";
 import Countdown from "./countdown";
 import ShortText from "@entities/question/ui/short-text/short-text";
+import LongText from "@entities/question/ui/long-text/long-text";
 
 export default function StepQuiz() {
   const [timeLimit] = useState(time);
@@ -35,6 +36,9 @@ export default function StepQuiz() {
         return (
           <ShortText question={question} toNextQuestion={toNextQuestion} />
         );
+
+      case "long_text":
+        return <LongText question={question} toNextQuestion={toNextQuestion} />;
       default:
         throw new Error("Unknown question type");
     }

@@ -22,6 +22,11 @@
     },
     {
       "id": "2",
+      "text": "Что такое рективность и есть ли она в реакте?",
+      "type": "long_text"
+    },
+    {
+      "id": "3",
       "text": "Зачем нужен Typescript",
       "type": "single_choice",
       "answers": [
@@ -40,7 +45,7 @@
       ]
     },
     {
-      "id": "3",
+      "id": "4",
       "text": "Какие типы данных есть в JS?",
       "type": "multiple_choice",
       "answers": [
@@ -80,26 +85,30 @@
       ]
     },
     {
-      "id": "4",
-      "text": "Что должен знать Frontend-разработчик? Назовите три ключевых технологии",
+      "id": "5",
+      "text": "Что такое Babel?",
       "type": "single_choice",
       "answers": [
         {
           "id": "1",
-          "text": "HTML, CSS и JavaScript"
+          "text": "Язык программирования"
         },
         {
           "id": "2",
-          "text": "Kotlin, PHP и JavaScript"
+          "text": "Транспилятор"
         },
         {
           "id": "3",
-          "text": "PHP, HTML и CSS"
+          "text": "Компилятор"
+        },
+        {
+          "id": "4",
+          "text": "Расширение VSCode"
         }
       ]
     },
     {
-      "id": "5",
+      "id": "6",
       "text": "Что такое Virtual DOM?",
       "type": "short_text"
     }
