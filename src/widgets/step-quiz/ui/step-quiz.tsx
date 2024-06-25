@@ -8,21 +8,6 @@ import MultipleChoice from "@entities/question/ui/multiple-choice/multiple-choic
 export default function StepQuiz() {
   const [questionsData, _] = useState(questions);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswerID, setSelectedAnswerID] = useState<string | null>(null);
-
-  function handleAnswerSubmit(answerId: string) {
-    try {
-      fetch("http://localhost:3000/api/quiz", {
-        method: "POST",
-        body: answerId,
-      });
-    } catch (e) {
-      console.log(e);
-    }
-
-    setSelectedAnswerID(null);
-    setCurrentQuestionIndex(currentQuestionIndex + 1);
-  }
 
   function toNextQuestion() {
     setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -34,9 +19,7 @@ export default function StepQuiz() {
         return (
           <SingleChoice
             question={questionsData[currentQuestionIndex]}
-            onButtonClick={handleAnswerSubmit}
-            selectedAnswerID={selectedAnswerID}
-            setSelectedAnswerID={setSelectedAnswerID}
+            toNextQuestion={toNextQuestion}
           />
         );
       case "multiple_choice":

@@ -3,19 +3,15 @@ import {
   SingleChoiceQuestionDTO,
 } from "@entities/question/model/question.model";
 import SingleChoiceAnswer from "./single-choice-answer";
+import { useState } from "react";
 
 interface Props {
   question: SingleChoiceQuestionDTO;
-  onButtonClick: (answerId: string) => void;
-  selectedAnswerID: string | null;
-  setSelectedAnswerID: (answerId: string) => void;
+  toNextQuestion: () => void;
 }
-export default function SingleChoice({
-  question,
-  onButtonClick,
-  selectedAnswerID,
-  setSelectedAnswerID,
-}: Props) {
+export default function SingleChoice({ question, toNextQuestion }: Props) {
+  const [selectedAnswerID, setSelectedAnswerID] = useState<string>("");
+
   function onAnswerClick(answerId: string) {
     setSelectedAnswerID(answerId);
   }
@@ -27,9 +23,23 @@ export default function SingleChoice({
         answer={answer}
         name={"singleChoice"}
         onAnswerClick={onAnswerClick}
-        selectedAnswerID={selectedAnswerID}
+        isSelected={selectedAnswerID === answer.id}
       />
     ));
+  }
+
+  function onButtonClick(answerId: string) {
+    try {
+      fetch("http://localhost:3000/api/quiz", {
+        method: "POST",
+        body: answerId,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+
+    setSelectedAnswerID("");
+    toNextQuestion();
   }
 
   function renderButton() {
@@ -43,7 +53,7 @@ export default function SingleChoice({
             baseClass + "opacity-50 cursor-not-allowed hover:bg-red-700"
           }
           type="submit"
-          onClick={() => onButtonClick(selectedAnswerID!)}
+          onClick={() => onButtonClick(selectedAnswerID)}
         >
           Ответить
         </button>
@@ -53,7 +63,7 @@ export default function SingleChoice({
       <button
         className={baseClass}
         type="submit"
-        onClick={() => onButtonClick(selectedAnswerID!)}
+        onClick={() => onButtonClick(selectedAnswerID)}
       >
         Ответить
       </button>

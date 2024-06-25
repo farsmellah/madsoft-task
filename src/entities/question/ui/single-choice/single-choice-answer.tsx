@@ -4,7 +4,7 @@ interface Props {
   answer: SingleChoiceAnswerDTO;
   onAnswerClick: (answer: string) => void;
   name: string;
-  selectedAnswerID: string | null;
+  isSelected: boolean;
 }
 
 //TODO: text could not be
@@ -12,7 +12,7 @@ export default function SingleChoiceAnswer({
   answer,
   name,
   onAnswerClick,
-  selectedAnswerID,
+  isSelected,
 }: Props) {
   return (
     <div className="flex items-center gap-2">
@@ -20,7 +20,7 @@ export default function SingleChoiceAnswer({
         className="appearance-none cursor-pointer hover:bg-red-200 checked:bg-red-700 checked:active:bg-red-700 checked:focus:bg-red-700 bg-rind focus:outline-none focus:ring-1 focus:ring-red-700"
         type="radio"
         value={answer.id}
-        checked={selectedAnswerID === answer.id}
+        checked={isSelected}
         name={name}
         id={answer.id}
         onChange={() => onAnswerClick(answer.id)}
