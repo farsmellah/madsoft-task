@@ -1,16 +1,22 @@
 import { SingleChoice } from "@entities/question/index";
-import { questions } from "@widgets/step-quiz/api/fake-questions.json";
+import { questions, time } from "@widgets/step-quiz/api/fake-questions.json";
 import Stepper from "./stepper";
 import { useState } from "react";
 import { QuestionDTO } from "@entities/question/model/question.model";
 import MultipleChoice from "@entities/question/ui/multiple-choice/multiple-choice";
+import Countdown from "./countdown";
 
 export default function StepQuiz() {
-  const [questionsData, _] = useState(questions);
+  const [timeLimit] = useState(time);
+  const [questionsData] = useState(questions);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   function toNextQuestion() {
     setCurrentQuestionIndex(currentQuestionIndex + 1);
+  }
+
+  function onCountdownEnd() {
+    setCurrentQuestionIndex(questionsData.length);
   }
 
   function renderQuestion(question: QuestionDTO) {
@@ -45,9 +51,10 @@ export default function StepQuiz() {
         <div className="flex flex-col gap-4">
           <div className="flex gap-2 items-center">
             <h1 className="font-bold text-xl h-fit">Тестирование</h1>
-            <div className="border border-gray-600 px-4 py-[2px] rounded text-gray-600">
-              16:56
-            </div>
+            <Countdown
+              initialTime={timeLimit}
+              onCountdownEnd={onCountdownEnd}
+            />
           </div>
           <Stepper
             currentStep={currentQuestionIndex}
