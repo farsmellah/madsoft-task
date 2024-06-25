@@ -4,6 +4,7 @@ import {
 } from "@entities/question/model/question.model";
 import MultipleChoiceAnswer from "./multiple-choice-answer";
 import { useState } from "react";
+import Button from "@shared/ui/button/button";
 
 interface Props {
   question: MultipleChoiceQuestionDTO;
@@ -51,34 +52,6 @@ export default function MultipleChoice({ question, toNextQuestion }: Props) {
     ));
   }
 
-  function renderButton() {
-    const baseClass =
-      "px-8 py-1 rounded bg-red-700 hover:bg-red-800 text-white ";
-    if (!isTouched) {
-      return (
-        <button
-          disabled
-          className={
-            baseClass + "opacity-50 cursor-not-allowed hover:bg-red-700"
-          }
-          type="submit"
-          onClick={() => onButtonClick(answerData)}
-        >
-          Ответить
-        </button>
-      );
-    }
-    return (
-      <button
-        className={baseClass}
-        type="submit"
-        onClick={() => onButtonClick(answerData)}
-      >
-        Ответить
-      </button>
-    );
-  }
-
   const answers = question.answers;
   return (
     <>
@@ -86,7 +59,10 @@ export default function MultipleChoice({ question, toNextQuestion }: Props) {
         <p className="font-bold select-none">{question.text}</p>
         <div className="flex flex-col gap-2">{renderAnswers(answers)}</div>
 
-        {renderButton()}
+        <Button
+          onClick={() => onButtonClick(answerData)}
+          isDisabled={!isTouched}
+        />
       </fieldset>
     </>
   );

@@ -4,6 +4,7 @@ import {
 } from "@entities/question/model/question.model";
 import SingleChoiceAnswer from "./single-choice-answer";
 import { useState } from "react";
+import Button from "@shared/ui/button/button";
 
 interface Props {
   question: SingleChoiceQuestionDTO;
@@ -42,34 +43,6 @@ export default function SingleChoice({ question, toNextQuestion }: Props) {
     toNextQuestion();
   }
 
-  function renderButton() {
-    const baseClass =
-      "px-8 py-1 rounded bg-red-700 hover:bg-red-800 text-white ";
-    if (!selectedAnswerID) {
-      return (
-        <button
-          disabled
-          className={
-            baseClass + "opacity-50 cursor-not-allowed hover:bg-red-700"
-          }
-          type="submit"
-          onClick={() => onButtonClick(selectedAnswerID)}
-        >
-          Ответить
-        </button>
-      );
-    }
-    return (
-      <button
-        className={baseClass}
-        type="submit"
-        onClick={() => onButtonClick(selectedAnswerID)}
-      >
-        Ответить
-      </button>
-    );
-  }
-
   const answers = question.answers;
   return (
     <>
@@ -77,7 +50,10 @@ export default function SingleChoice({ question, toNextQuestion }: Props) {
         <p className="font-bold select-none">{question.text}</p>
         <div className="flex flex-col gap-2">{renderAnswers(answers)}</div>
 
-        {renderButton()}
+        <Button
+          onClick={() => onButtonClick(selectedAnswerID)}
+          isDisabled={selectedAnswerID === ""}
+        />
       </fieldset>
     </>
   );
