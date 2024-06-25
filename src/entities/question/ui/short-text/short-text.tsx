@@ -33,6 +33,7 @@ export default function ShortText({ question, toNextQuestion }: Props) {
 
         <input
           tabIndex={1}
+          autoComplete="off"
           type="text"
           className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 focus:ring-red-500 focus:border-red-500 focus:border"
           name="answer"
