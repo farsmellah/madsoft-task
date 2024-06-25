@@ -3,6 +3,7 @@ import { questions } from "@widgets/step-quiz/api/fake-questions.json";
 import Stepper from "./stepper";
 import { useState } from "react";
 import { QuestionDTO } from "@entities/question/model/question.model";
+import MultipleChoice from "@entities/question/ui/multiple-choice/multiple-choice";
 
 export default function StepQuiz() {
   const [questionsData, _] = useState(questions);
@@ -23,6 +24,10 @@ export default function StepQuiz() {
     setCurrentQuestionIndex(currentQuestionIndex + 1);
   }
 
+  function toNextQuestion() {
+    setCurrentQuestionIndex(currentQuestionIndex + 1);
+  }
+
   function renderQuestion(question: QuestionDTO) {
     switch (question.type) {
       case "single_choice":
@@ -33,6 +38,10 @@ export default function StepQuiz() {
             selectedAnswerID={selectedAnswerID}
             setSelectedAnswerID={setSelectedAnswerID}
           />
+        );
+      case "multiple_choice":
+        return (
+          <MultipleChoice question={question} toNextQuestion={toNextQuestion} />
         );
       default:
         throw new Error("Unknown question type");

@@ -15,5 +15,16 @@ export interface SingleChoiceAnswerDTO {
 }
 /**/
 
+/*Multiple Choice Type*/
+export interface MultipleChoiceQuestionDTO extends QuestionBaseDTO {
+  answers: Array<MultipleChoiceAnswerDTO>;
+}
+
+export interface MultipleChoiceAnswerDTO {
+  id: string;
+  text: string;
+}
+/**/
+
 /*Question DTO*/
 export type QuestionDTO = SingleChoiceQuestionDTO;

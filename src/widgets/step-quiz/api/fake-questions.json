@@ -40,6 +40,46 @@
     },
     {
       "id": "3",
+      "text": "Какие типы данных есть в JS?",
+      "type": "multiple_choice",
+      "answers": [
+        {
+          "id": "1",
+          "text": "Array"
+        },
+
+        {
+          "id": "2",
+          "text": "Float"
+        },
+        {
+          "id": "3",
+          "text": "Object"
+        },
+        {
+          "id": "4",
+          "text": "Number"
+        },
+        {
+          "id": "5",
+          "text": "String"
+        },
+        {
+          "id": "6",
+          "text": "Integer"
+        },
+        {
+          "id": "7",
+          "text": "Decimal"
+        },
+        {
+          "id": "8",
+          "text": "Char"
+        }
+      ]
+    },
+    {
+      "id": "4",
       "text": "Что должен знать Frontend-разработчик? Назовите три ключевых технологии",
       "type": "single_choice",
       "answers": [
