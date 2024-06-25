@@ -5,10 +5,11 @@ import { useState } from "react";
 import { QuestionDTO } from "@entities/question/model/question.model";
 import MultipleChoice from "@entities/question/ui/multiple-choice/multiple-choice";
 import Countdown from "./countdown";
+import ShortText from "@entities/question/ui/short-text/short-text";
 
 export default function StepQuiz() {
   const [timeLimit] = useState(time);
-  const [questionsData] = useState(questions);
+  const [questionsData] = useState(questions as QuestionDTO[]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   function toNextQuestion() {
@@ -23,14 +24,16 @@ export default function StepQuiz() {
     switch (question.type) {
       case "single_choice":
         return (
-          <SingleChoice
-            question={questionsData[currentQuestionIndex]}
-            toNextQuestion={toNextQuestion}
-          />
+          <SingleChoice question={question} toNextQuestion={toNextQuestion} />
         );
       case "multiple_choice":
         return (
           <MultipleChoice question={question} toNextQuestion={toNextQuestion} />
+        );
+
+      case "short_text":
+        return (
+          <ShortText question={question} toNextQuestion={toNextQuestion} />
         );
       default:
         throw new Error("Unknown question type");

@@ -1,11 +1,12 @@
 export interface QuestionBaseDTO {
   id: string;
-  type: string;
+  type: "single_choice" | "multiple_choice" | "short_text";
   text: string;
 }
 
 /*Single Choice Type*/
 export interface SingleChoiceQuestionDTO extends QuestionBaseDTO {
+  type: "single_choice";
   answers: Array<SingleChoiceAnswerDTO>;
 }
 
@@ -17,6 +18,7 @@ export interface SingleChoiceAnswerDTO {
 
 /*Multiple Choice Type*/
 export interface MultipleChoiceQuestionDTO extends QuestionBaseDTO {
+  type: "multiple_choice";
   answers: Array<MultipleChoiceAnswerDTO>;
 }
 
@@ -26,5 +28,14 @@ export interface MultipleChoiceAnswerDTO {
 }
 /**/
 
+/*Short Text Type*/
+export interface ShortTextQuestionDTO extends QuestionBaseDTO {
+  type: "short_text";
+}
+/**/
+
 /*Question DTO*/
-export type QuestionDTO = SingleChoiceQuestionDTO;
+export type QuestionDTO =
+  | SingleChoiceQuestionDTO
+  | MultipleChoiceQuestionDTO
+  | ShortTextQuestionDTO;

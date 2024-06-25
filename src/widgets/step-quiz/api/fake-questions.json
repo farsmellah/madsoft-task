@@ -97,6 +97,11 @@
           "text": "PHP, HTML и CSS"
         }
       ]
+    },
+    {
+      "id": "5",
+      "text": "Что такое Virtual DOM?",
+      "type": "short_text"
     }
   ]
 }
