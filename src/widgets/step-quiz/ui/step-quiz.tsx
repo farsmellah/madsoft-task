@@ -15,12 +15,12 @@ export default function StepQuiz({ onFinish }: Props) {
   const [timeLimit] = useState(time);
   const [questionsData] = useState(questions as QuestionDTO[]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(() => {
-    const savedIndex = localStorage.getItem("currentQuestionIndex");
+    const savedIndex = sessionStorage.getItem("currentQuestionIndex");
     return savedIndex ? parseInt(savedIndex, 10) : 0;
   });
 
   useEffect(() => {
-    localStorage.setItem(
+    sessionStorage.setItem(
       "currentQuestionIndex",
       currentQuestionIndex.toString()
     );
@@ -30,7 +30,7 @@ export default function StepQuiz({ onFinish }: Props) {
     }
 
     return () => {
-      localStorage.removeItem("currentQuestionIndex");
+      sessionStorage.removeItem("currentQuestionIndex");
     };
   }, [currentQuestionIndex, questionsData.length, onFinish]);
 

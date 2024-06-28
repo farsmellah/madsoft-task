@@ -10,7 +10,7 @@ const timerWorker = new Worker(worker_script);
 
 function Countdown({ initialTime, onCountdownEnd }: Props) {
   const [timer, setTimer] = useState(() => {
-    const savedTime = localStorage.getItem("countdownTime");
+    const savedTime = sessionStorage.getItem("countdownTime");
     return savedTime ? parseInt(savedTime, 10) : initialTime;
   });
 
@@ -21,20 +21,20 @@ function Countdown({ initialTime, onCountdownEnd }: Props) {
     //update state and storage on message
     timerWorker.onmessage = ({ data }) => {
       setTimer(data.time);
-      localStorage.setItem("countdownTime", data.time.toString());
+      sessionStorage.setItem("countdownTime", data.time.toString());
       document.title = formatTime(data.time) + " - " + PAGE_TITLE;
     };
 
     //stop web worker on unmount
     return () => {
       timerWorker.postMessage({ turn: "off" });
-      localStorage.removeItem("countdownTime");
+      sessionStorage.removeItem("countdownTime");
     };
   }, []);
 
   useEffect(() => {
     if (timer <= 0) {
-      localStorage.removeItem("countdownTime");
+      sessionStorage.removeItem("countdownTime");
       onCountdownEnd();
     }
   }, [timer, onCountdownEnd]);
