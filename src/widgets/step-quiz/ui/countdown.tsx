@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { worker_script } from "../api/countdown-worker";
+import { PAGE_TITLE } from "@shared/index";
 
 interface Props {
   initialTime: number;
@@ -21,6 +22,7 @@ function Countdown({ initialTime, onCountdownEnd }: Props) {
     timerWorker.onmessage = ({ data }) => {
       setTimer(data.time);
       localStorage.setItem("countdownTime", data.time.toString());
+      document.title = formatTime(data.time) + " - " + PAGE_TITLE;
     };
 
     //stop web worker on unmount
