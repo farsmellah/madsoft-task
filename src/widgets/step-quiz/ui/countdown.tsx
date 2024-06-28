@@ -5,21 +5,28 @@ interface Props {
   onCountdownEnd: () => void;
 }
 function Countdown({ initialTime, onCountdownEnd }: Props) {
-  const [time, setTime] = useState(initialTime);
+  const [time, setTime] = useState(() => {
+    const savedTime = localStorage.getItem("countdownTime");
+    return savedTime ? parseInt(savedTime, 10) : initialTime;
+  });
 
   useEffect(() => {
+    if (time <= 0) {
+      onCountdownEnd();
+      localStorage.removeItem("countdownTime");
+      return;
+    }
+
     const countdown = setInterval(() => {
-      setTime((prev) => prev - 1);
+      setTime((prev) => {
+        const newTime = prev - 1;
+        localStorage.setItem("countdownTime", newTime.toString());
+        return newTime;
+      });
     }, 1000);
 
     return () => clearInterval(countdown);
-  }, []);
-
-  useEffect(() => {
-    if (time === 0) {
-      onCountdownEnd();
-    }
-  }, [time]);
+  }, [time, onCountdownEnd]);
 
   const formatTime = (totalSeconds: number) => {
     const minutes = Math.floor(totalSeconds / 60);

@@ -1,7 +1,7 @@
 import { SingleChoice } from "@entities/question/index";
 import { questions, time } from "@widgets/step-quiz/api/fake-questions.json";
 import Stepper from "./stepper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QuestionDTO } from "@entities/question/model/question.model";
 import MultipleChoice from "@entities/question/ui/multiple-choice/multiple-choice";
 import Countdown from "./countdown";
@@ -11,7 +11,17 @@ import LongText from "@entities/question/ui/long-text/long-text";
 export default function StepQuiz() {
   const [timeLimit] = useState(time);
   const [questionsData] = useState(questions as QuestionDTO[]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(() => {
+    const savedIndex = localStorage.getItem("currentQuestionIndex");
+    return savedIndex ? parseInt(savedIndex, 10) : 0;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(
+      "currentQuestionIndex",
+      currentQuestionIndex.toString()
+    );
+  }, [currentQuestionIndex]);
 
   function toNextQuestion() {
     setCurrentQuestionIndex(currentQuestionIndex + 1);
