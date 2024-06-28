@@ -11,16 +11,17 @@ export default function MultipleChoiceAnswer({
   registerAnswer,
 }: Props) {
   return (
-    <div className="flex items-center gap-2">
+    <label
+      htmlFor={answer.id}
+      className="select-none cursor-pointer flex items-center gap-2 py-1"
+    >
       <input
         className="appearance-none cursor-pointer hover:bg-red-200 checked:bg-red-700 checked:active:bg-red-700 checked:focus:bg-red-700 bg-rind focus:outline-none focus:ring-1 focus:ring-red-700"
         type="checkbox"
         {...registerAnswer()}
         id={answer.id}
       />
-      <label htmlFor={answer.id} className="select-none cursor-pointer">
-        {answer.text}
-      </label>
-    </div>
+      {answer.text}
+    </label>
   );
 }

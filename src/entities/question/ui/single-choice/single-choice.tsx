@@ -53,7 +53,7 @@ export default function SingleChoice({ question, toNextQuestion }: Props) {
         onSubmit={handleSubmit(submitData)}
       >
         <p className="font-bold select-none">{question.text}</p>
-        <div className="flex flex-col gap-2">{renderAnswers(answers)}</div>
+        <div className="flex flex-col">{renderAnswers(answers)}</div>
 
         <Button isDisabled={!formState.isValid} />
       </form>
