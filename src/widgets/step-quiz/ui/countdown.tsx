@@ -12,20 +12,28 @@ function Countdown({ initialTime, onCountdownEnd }: Props) {
 
   useEffect(() => {
     if (time <= 0) {
-      onCountdownEnd();
       localStorage.removeItem("countdownTime");
+      onCountdownEnd();
       return;
     }
 
+    localStorage.setItem("countdownTime", time.toString());
+
     const countdown = setInterval(() => {
-      setTime((prev) => {
-        const newTime = prev - 1;
-        localStorage.setItem("countdownTime", newTime.toString());
-        return newTime;
-      });
+      setTime((prev) => prev - 1);
     }, 1000);
 
-    return () => clearInterval(countdown);
+    return () => {
+      localStorage.removeItem("countdownTime");
+      clearInterval(countdown);
+    };
+  }, [time, onCountdownEnd]);
+
+  useEffect(() => {
+    if (time <= 0) {
+      localStorage.removeItem("countdownTime");
+      onCountdownEnd();
+    }
   }, [time, onCountdownEnd]);
 
   const formatTime = (totalSeconds: number) => {

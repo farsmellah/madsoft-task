@@ -8,7 +8,10 @@ import Countdown from "./countdown";
 import ShortText from "@entities/question/ui/short-text/short-text";
 import LongText from "@entities/question/ui/long-text/long-text";
 
-export default function StepQuiz() {
+interface Props {
+  onFinish: () => void;
+}
+export default function StepQuiz({ onFinish }: Props) {
   const [timeLimit] = useState(time);
   const [questionsData] = useState(questions as QuestionDTO[]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(() => {
@@ -21,14 +24,18 @@ export default function StepQuiz() {
       "currentQuestionIndex",
       currentQuestionIndex.toString()
     );
-  }, [currentQuestionIndex]);
+
+    if (currentQuestionIndex >= questionsData.length) {
+      onFinish();
+    }
+
+    return () => {
+      localStorage.removeItem("currentQuestionIndex");
+    };
+  }, [currentQuestionIndex, questionsData.length, onFinish]);
 
   function toNextQuestion() {
     setCurrentQuestionIndex(currentQuestionIndex + 1);
-  }
-
-  function onCountdownEnd() {
-    setCurrentQuestionIndex(questionsData.length);
   }
 
   function renderQuestion(question: QuestionDTO) {
@@ -53,34 +60,18 @@ export default function StepQuiz() {
         throw new Error("Unknown question type");
     }
   }
-  function renderWidget() {
-    if (currentQuestionIndex === questionsData.length) {
-      return (
-        <div className="flex flex-col gap-4 items-center">
-          <h1 className="text-xl h-fit">Данные отправлены</h1>
-          <button className="px-8 py-1 rounded bg-red-700 hover:bg-red-800 text-white">
-            К результатам
-          </button>
-        </div>
-      );
-    } else
-      return (
-        <div className="flex flex-col gap-4">
-          <div className="flex gap-2 items-center">
-            <h1 className="font-bold text-xl h-fit">Тестирование</h1>
-            <Countdown
-              initialTime={timeLimit}
-              onCountdownEnd={onCountdownEnd}
-            />
-          </div>
-          <Stepper
-            currentStep={currentQuestionIndex}
-            totalSteps={questions.length}
-          />
-          {renderQuestion(questionsData[currentQuestionIndex])}
-        </div>
-      );
-  }
 
-  return renderWidget();
+  return currentQuestionIndex >= questionsData.length ? null : (
+    <div className="flex flex-col gap-4">
+      <div className="flex gap-2 items-center">
+        <h1 className="font-bold text-xl h-fit">Тестирование</h1>
+        <Countdown initialTime={timeLimit} onCountdownEnd={onFinish} />
+      </div>
+      <Stepper
+        currentStep={currentQuestionIndex}
+        totalSteps={questions.length}
+      />
+      {renderQuestion(questionsData[currentQuestionIndex])}
+    </div>
+  );
 }

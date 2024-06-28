@@ -32,7 +32,6 @@ export default function MultipleChoice({ question, toNextQuestion }: Props) {
       answer: data,
     };
 
-    console.log(DTO);
     try {
       fetch("http://localhost:3000/api/quiz", {
         method: "POST",
