@@ -936,6 +936,11 @@ select {
   background-color: rgb(153 27 27 / var(--tw-bg-opacity));
 }
 
+.checked\:hover\:bg-red-700:hover:checked {
+  --tw-bg-opacity: 1;
+  background-color: rgb(185 28 28 / var(--tw-bg-opacity));
+}
+
 .focus\:border:focus {
   border-width: 1px;
 }
