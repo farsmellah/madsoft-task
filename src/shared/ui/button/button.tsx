@@ -1,8 +1,7 @@
 interface Props {
-  onClick: () => void;
   isDisabled: boolean;
 }
-function Button({ onClick, isDisabled }: Props) {
+function Button({ isDisabled }: Props) {
   function renderButton() {
     const baseClass =
       "px-8 py-1 rounded bg-red-700 hover:bg-red-800 text-white ";
@@ -14,14 +13,13 @@ function Button({ onClick, isDisabled }: Props) {
             baseClass + "opacity-50 cursor-not-allowed hover:bg-red-700"
           }
           type="submit"
-          onClick={onClick}
         >
           Ответить
         </button>
       );
     }
     return (
-      <button className={baseClass} type="submit" onClick={onClick}>
+      <button className={baseClass} type="submit">
         Ответить
       </button>
     );

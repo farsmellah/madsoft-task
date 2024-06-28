@@ -1,37 +1,42 @@
 import {
   MultipleChoiceQuestionDTO,
   MultipleChoiceAnswerDTO,
+  MultipleChoiceFormInput,
+  MultipleChoiceSubmissionDTO,
 } from "@entities/question/model/question.model";
 import MultipleChoiceAnswer from "./multiple-choice-answer";
-import { useState } from "react";
 import Button from "@shared/ui/button/button";
+import { useForm } from "react-hook-form";
 
 interface Props {
   question: MultipleChoiceQuestionDTO;
   toNextQuestion: () => void;
 }
 export default function MultipleChoice({ question, toNextQuestion }: Props) {
-  const [answerData, setAnswerData] = useState<{ [key: string]: boolean }>(
-    question.answers.reduce((acc, answer) => {
-      acc[answer.id] = false;
-      return acc;
-    }, {} as { [key: string]: boolean })
-  );
-  const [isTouched, setIsTouched] = useState(false);
+  const { register, handleSubmit, formState, getValues } =
+    useForm<MultipleChoiceFormInput>();
 
-  function onAnswerClick(answerId: string) {
-    setAnswerData((prev) => ({ ...prev, [answerId]: !prev[answerId] }));
-    setIsTouched(true);
+  function validateCheckboxes() {
+    const values = getValues(
+      question.answers.map((_, index) => `${index + 1}`)
+    );
+
+    const isValid = values?.some((v: any) => v === true);
+
+    return isValid;
   }
 
-  function onButtonClick(answerData: { [key: string]: boolean }) {
-    const answerIds = Object.keys(answerData).filter(
-      (answerId) => answerData[answerId]
-    );
+  function submitData(data: MultipleChoiceFormInput) {
+    const DTO: MultipleChoiceSubmissionDTO = {
+      type: "multiple_choice",
+      answer: data,
+    };
+
+    console.log(DTO);
     try {
       fetch("http://localhost:3000/api/quiz", {
         method: "POST",
-        body: JSON.stringify(answerIds),
+        body: JSON.stringify(DTO),
       });
     } catch (e) {
       console.log(e);
@@ -45,9 +50,11 @@ export default function MultipleChoice({ question, toNextQuestion }: Props) {
       <MultipleChoiceAnswer
         key={answer.id}
         answer={answer}
-        name={"multipleChoice"}
-        onAnswerClick={onAnswerClick}
-        isSelected={answerData[answer.id]}
+        registerAnswer={() =>
+          register(answer.id, {
+            validate: validateCheckboxes,
+          })
+        }
       />
     ));
   }
@@ -55,15 +62,15 @@ export default function MultipleChoice({ question, toNextQuestion }: Props) {
   const answers = question.answers;
   return (
     <>
-      <fieldset className="flex flex-col items-start gap-4">
+      <form
+        className="flex flex-col items-start gap-4"
+        onSubmit={handleSubmit(submitData)}
+      >
         <p className="font-bold select-none">{question.text}</p>
         <div className="flex flex-col gap-2">{renderAnswers(answers)}</div>
 
-        <Button
-          onClick={() => onButtonClick(answerData)}
-          isDisabled={!isTouched}
-        />
-      </fieldset>
+        <Button isDisabled={!formState.isValid} />
+      </form>
     </>
   );
 }

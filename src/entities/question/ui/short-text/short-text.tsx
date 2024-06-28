@@ -1,23 +1,28 @@
-import { ShortTextQuestionDTO } from "@entities/question/model/question.model";
-import { useState } from "react";
+import {
+  ShortTextFormInput,
+  ShortTextQuestionDTO,
+  ShortTextSubmissionDTO,
+} from "@entities/question/model/question.model";
 import Button from "@shared/ui/button/button";
+import { useForm } from "react-hook-form";
 
 interface Props {
   question: ShortTextQuestionDTO;
   toNextQuestion: () => void;
 }
 export default function ShortText({ question, toNextQuestion }: Props) {
-  const [answerText, setAnswerText] = useState("");
+  const { register, handleSubmit, formState } = useForm<ShortTextFormInput>();
 
-  function onAnswerChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setAnswerText(e.target.value);
-  }
+  function submitData(data: ShortTextFormInput) {
+    const DTO: ShortTextSubmissionDTO = {
+      type: "short_text",
+      answer: data.text,
+    };
 
-  function onButtonClick(answerData: string) {
     try {
       fetch("http://localhost:3000/api/quiz", {
         method: "POST",
-        body: JSON.stringify(answerData),
+        body: JSON.stringify(DTO),
       });
     } catch (e) {
       console.log(e);
@@ -28,7 +33,10 @@ export default function ShortText({ question, toNextQuestion }: Props) {
 
   return (
     <>
-      <fieldset className="flex flex-col items-start gap-4">
+      <form
+        className="flex flex-col items-start gap-4"
+        onSubmit={handleSubmit(submitData)}
+      >
         <p className="font-bold select-none">{question.text}</p>
 
         <input
@@ -36,16 +44,11 @@ export default function ShortText({ question, toNextQuestion }: Props) {
           autoComplete="off"
           type="text"
           className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 focus:ring-red-500 focus:border-red-500 focus:border"
-          name="answer"
-          value={answerText}
-          onChange={onAnswerChange}
+          {...register("text", { required: true })}
         />
 
-        <Button
-          onClick={() => onButtonClick(answerText)}
-          isDisabled={!answerText}
-        />
-      </fieldset>
+        <Button isDisabled={!formState.isValid} />
+      </form>
     </>
   );
 }
