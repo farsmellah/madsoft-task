@@ -1,40 +1,41 @@
 import { useEffect, useState } from "react";
+import { worker_script } from "../api/countdown-worker";
 
 interface Props {
   initialTime: number;
   onCountdownEnd: () => void;
 }
+const timerWorker = new Worker(worker_script);
+
 function Countdown({ initialTime, onCountdownEnd }: Props) {
-  const [time, setTime] = useState(() => {
+  const [timer, setTimer] = useState(() => {
     const savedTime = localStorage.getItem("countdownTime");
     return savedTime ? parseInt(savedTime, 10) : initialTime;
   });
 
   useEffect(() => {
-    if (time <= 0) {
-      localStorage.removeItem("countdownTime");
-      onCountdownEnd();
-      return;
-    }
+    //initialize web worker interval
+    timerWorker.postMessage({ turn: "on", initialTime: timer });
 
-    localStorage.setItem("countdownTime", time.toString());
-
-    const countdown = setInterval(() => {
-      setTime((prev) => prev - 1);
-    }, 1000);
-
-    return () => {
-      localStorage.removeItem("countdownTime");
-      clearInterval(countdown);
+    //update state and storage on message
+    timerWorker.onmessage = ({ data }) => {
+      setTimer(data.time);
+      localStorage.setItem("countdownTime", data.time.toString());
     };
-  }, [time, onCountdownEnd]);
+
+    //stop web worker on unmount
+    return () => {
+      timerWorker.postMessage({ turn: "off" });
+      localStorage.removeItem("countdownTime");
+    };
+  }, []);
 
   useEffect(() => {
-    if (time <= 0) {
+    if (timer <= 0) {
       localStorage.removeItem("countdownTime");
       onCountdownEnd();
     }
-  }, [time, onCountdownEnd]);
+  }, [timer, onCountdownEnd]);
 
   const formatTime = (totalSeconds: number) => {
     const minutes = Math.floor(totalSeconds / 60);
@@ -46,8 +47,10 @@ function Countdown({ initialTime, onCountdownEnd }: Props) {
   };
 
   return (
-    <div className="border border-gray-600 px-4 py-[2px] rounded text-gray-600">
-      {formatTime(time)}
+    <div className="flex gap-2">
+      <div className="border border-gray-600 px-4 py-[2px] rounded text-gray-600">
+        {formatTime(timer)}
+      </div>
     </div>
   );
 }
